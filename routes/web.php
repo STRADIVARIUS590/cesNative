@@ -1,6 +1,8 @@
 <?php
 
+use App\Http\Controllers\CatalogController;
 use Illuminate\Support\Facades\Route;
+use Monolog\Handler\RotatingFileHandler;
 
 /*
 |--------------------------------------------------------------------------
@@ -16,3 +18,16 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
+
+// Route::view('/schools', 'admin.schools');
+// Route::view('/users', 'admin.users');
+Route::controller(CatalogController::class)->group(function(){
+    Route::get('/users','index')->defaults('model' , 'App\Models\User')->name('users');
+    Route::get('/schols','index')->defaults('model' , 'App\Models\School')->name('schools');
+    Route::post('/schols','store')->defaults('model' , 'App\Models\School')->name('schools.add');
+});
+
+
+Route::get('test-axios', function(){
+    return json_encode([1,2,3,43]);
+})->name('test');
